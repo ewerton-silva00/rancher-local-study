@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  # https://rancher.com/docs/rancher/v2.6/en/installation/other-installation-methods/single-node-docker/
+  rancher:
+    image: 'rancher/rancher:v2.5.12'
+    container_name: rancher
+    restart: unless-stopped
+    privileged: true
+    ports:
+      - target: 80
+        published: 8080
+        protocol: tcp
+        mode: host
+      - target: 443
+        published: 8443
+        protocol: tcp
+        mode: host
+    environment:
+      AUDIT_LEVEL: '1'
+    networks:
+      - rancher-network
+    volumes:
+      - type: volume
+        source: rancher-auditlog
+        target: /var/log/auditlog
+      - type: volume
+        source: rancher-data
+        target: /var/lib/rancher
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
+
+networks:
+  rancher-network:
+    driver: bridge
+
+volumes:
+  rancher-auditlog:
+    name: rancher-auditlog
+    driver: local
+  rancher-data:
+    name: rancher-data
+    driver: local
