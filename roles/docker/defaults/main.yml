@@ -1,0 +1,26 @@
+---
+# Vagrant Box user
+vagrant_user: vagrant
+
+# The variables above are used on roles/vagrant/tasks/filesystem.yml
+filesystem_configure: true
+
+filesystem_fstype: ext4
+
+filesystem_mount_path: '/mnt/docker'
+
+# The variables above are used on roles/vagrant/tasks/docker.yml
+docker_engine_install: true
+
+docker_engine_log_driver: 'json-file'
+
+docker_engine_log_max_file: 3
+
+docker_engine_log_max_size: 10m
+
+# The variables above are used on roles/vagrant/tasks/docker_compose.yml
+docker_compose_install: true
+
+docker_compose_version: 1.29.2
+
+docker_compose_install_dir: '/usr/local/bin'

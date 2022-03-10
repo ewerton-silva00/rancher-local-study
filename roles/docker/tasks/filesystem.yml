@@ -1,0 +1,23 @@
+---
+- name: Filesystem | Create a new {{ filesystem_fstype }} primary partition
+  community.general.parted:
+    device: /dev/sdb
+    number: 1
+    state: present
+    fs_type: "{{ filesystem_fstype }}"
+  tags: filesystem
+
+- name: Filesystem | Create a {{ filesystem_fstype }} filesystem on /dev/sdb1
+  community.general.filesystem:
+    fstype: "{{ filesystem_fstype }}"
+    dev: /dev/sdb1
+    state: present
+  tags: filesystem
+
+- name: Filesystem | Mount up Docker directory
+  ansible.posix.mount:
+    path: "{{ filesystem_mount_path }}"
+    src: /dev/sdb1
+    fstype: "{{ filesystem_fstype }}"
+    state: mounted
+  tags: filesystem

@@ -1,0 +1,12 @@
+---
+- name: Ansible Playbook to configure Docker Engine on Vagrant
+  hosts: all
+  gather_facts: yes
+  any_errors_fatal: true
+  become: yes
+  roles:
+    - role: docker
+      tags:
+        - filesystem
+        - docker
+        - docker_compose

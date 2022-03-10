@@ -1,0 +1,18 @@
+---
+- name: Filesystem | Include filesystem tasks
+  include_tasks: filesystem.yml
+  tags:
+    - filesystem
+  when: filesystem_configure | bool
+
+- name: Docker | Include docker tasks
+  include_tasks: docker.yml
+  tags:
+    - docker
+  when: docker_engine_install | bool
+
+- name: Docker Compose | Include docker compose tasks
+  include_tasks: docker_compose.yml
+  tags:
+    - docker_compose
+  when: docker_compose_install | bool
